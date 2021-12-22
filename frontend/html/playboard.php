@@ -22,14 +22,17 @@ session_start();
         <?php $j = 1;
         for ($i = 1; $i <= 3; $i++) {
             echo("<div class='cells_line'>");
-                echo("<div class='cell' id='cell_$j'></div>");
-                echo("<div class='cell' id='cell_".($j+1)."'></div>");
-                echo("<div class='cell' id='cell_".($j+2)."'></div>");
+                echo("<div class='cell' id='cell_$j'></div>
+                    <div class='cell_front', id='cell_front-$j' style='top: ".(($i - 1) * 200)."px; left: 0px'></div>");
+                echo("<div class='cell' id='cell_".($j+1)."'></div>
+                    <div class='cell_front', id='cell_front-".($j+1)."' style='top: ".(($i - 1) * 200)."px; left: 200px'></div>");
+                echo("<div class='cell' id='cell_".($j+2)."'></div>
+                    <div class='cell_front', id='cell_front-".($j+2)."' style='top: ".(($i - 1) * 200)."px; left: 400px'></div>");
             echo("</div>");
             $j = $j + 3;
-        }
-        echo $_SESSION['room_id']?>
+        } ?>
     </div>
+    <div class='button_restart'>Restart!</div>
     <script src="../js/playboard_script.js"></script>
 </body>
 </html>
