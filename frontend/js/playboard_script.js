@@ -2,6 +2,17 @@ $(document).ready(function(){
 
     var state = 0;
 
+    var start_request = $.ajax({
+      url:'/backend/wins_check.php',
+      dataType:'json',
+      success:function(data){
+        $('#creator_wins').html("Победы " + data.creator + ": " + data.creator_wins);
+        if (data.player != NULL) {
+          $('#player_wins').html("Победы " + data.player + ": " + data.player_wins);
+        }
+      }
+    })
+
     $('.cell_front').each(function(){
       $(this).hide();
     })
@@ -52,7 +63,65 @@ $(document).ready(function(){
     }
 
     setInterval(function(){
+      var request = $.ajax({
+        url:"/backend/check_enemy.php"
+      })
+
+      request.done(function(response, textStatus, jqXHR){
+        $('#enemy_info').html("Ваш оппонент: " + response);
+      })
+    }, 4000);
+
+    setInterval(function(){
+      var request = $.ajax({
+        url: "/backend/check_field.php",
+        type: "post"
+      });
+
+      request.done(function(response, textStatus, jqXHR){
         if (state == 0) {
+          if (response == 'x' || response == 'o'){
+            draw_board();
+            state = 1;
+            var win_request = $.ajax({
+              url:"/backend/player_win.php",
+            })
+  
+            win_request.done(function(response, textStatus, jqXHR){
+              $('.cells_front').show();
+              $('.button_restart').css('display', 'flex');
+              setTimeout(function(){
+                var info_request = $.ajax({
+                  url:'/backend/wins_check.php',
+                  dataType:'json',
+                  success:function(data){
+                    $('#creator_wins').html("Победы " + data.creator + ": " + data.creator_wins );
+                    $('#player_wins').html("Победы " + data.player + ": " + data.player_wins);
+                  }
+                })
+              }, 1500);
+            })
+          }
+          else {
+            var period_request = $.ajax({
+              url:"/backend/check_state.php"
+          })
+  
+          period_request.done(function(response, textStatus, jqXHR){
+              if (response == '1'){
+                  $('.cells_front').hide();
+                  $('#player_turn').html("Ваш ход!");
+                  draw_board();
+              }
+              else if (response == '0'){
+                $('#player_turn').html("Ход оппонента!");
+                  draw_board();
+              }
+          })
+          }
+        }
+      })
+        /*if (state == 0) {
           var period_request = $.ajax({
             url:"/backend/check_state.php"
         })
@@ -60,9 +129,11 @@ $(document).ready(function(){
         period_request.done(function(response, textStatus, jqXHR){
             if (response == '1'){
                 $('.cells_front').hide();
+                $('#player_turn').html("Ваш ход!");
                 draw_board();
             }
             else if (response == '0'){
+              $('#player_turn').html("Ход оппонента!");
                 draw_board();
             }
         })
@@ -73,36 +144,31 @@ $(document).ready(function(){
         });
 
         request.done(function(response, textStatus, jqXHR){
-          if (response == 'x'){
+          if (response == 'x' || response == 'o'){
             state = 1;
             var win_request = $.ajax({
               url:"/backend/player_win.php",
-              type:"post",
-              data: {sign:'x'}
             })
 
             win_request.done(function(response, textStatus, jqXHR){
               $('.cells_front').show();
               $('.button_restart').css('display', 'flex');
-            })
-          }
-          else if (response == 'o') {
-            state = 1;
-            var win_request = $.ajax({
-              url:"/backend/player_win.php",
-              type:"post",
-              data: {sign:'o'}
-            })
-
-            win_request.done(function(response, textStatus, jqXHR){
-              $('.cells_front').show();
-              $('.button_restart').css('display', 'flex');
+              setTimeout(function(){
+                var info_request = $.ajax({
+                  url:'/backend/wins_check.php',
+                  dataType:'json',
+                  success:function(data){
+                    $('#creator_wins').html("Победы " + data.creator + ": " + (data.creator_wins / 2));
+                    $('#player_wins').html("Победы " + data.player + ": " + (data.player_wins / 2));
+                  }
+                })
+              }, 1500);
             })
           }
         })
-      }
+      }*/
 
-    }, 100);
+    }, 300);
 
     $(".cell").click(function(){
         $cell = $(this);
@@ -113,11 +179,11 @@ $(document).ready(function(){
         });
 
         request.done(function(response, textStatus, jqXHR){
-          if (response == 'x'){
-            $cell.html("x");
+          if (response == 'X'){
+            $cell.html("X");
           }
-          else if (response == 'o'){
-            $cell.html("o");
+          else if (response == 'O'){
+            $cell.html("O");
           }
           var $num = $cell.attr('id').split('_')[1];
           var $cell_front = '#cell_front-' + $num;
@@ -140,7 +206,7 @@ $(document).ready(function(){
         request.done(function(response, textStatus, jqXHR){
           if (response == 1) {
             state = 2;
-            alert("Ожидаем второго игрока!");
+            $('#enemy_wait').html("Ожидаем оппонента!");
           }
           else if (response == 2) {
             state = 0;
@@ -159,13 +225,13 @@ $(document).ready(function(){
         request.done(function(response, textStatus, jqXHR){
           if (response == 2) {
             state = 0;
+            $('#enemy_wait').html("");
           }
         })
       }
     }, 1000)
 
-    window.addEventListener("beforeunload", function(event){
-        event.preventDefault();
+    $(window).on("beforeunload", function(event){
         request = $.ajax({
             url:'/backend/player_left.php'
         })

@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+  window.room_state_var = 0;
+
   $('a.login').click( function(event){
     event.preventDefault();
     $('.overlay').fadeIn(297,	function(){
@@ -140,39 +143,30 @@ $(document).ready(function() {
           $(this).css('display', 'none');
           $('#overlay').fadeOut(297);
         })
-      }, 2000);
+      }, 1300);
       setTimeout(function(){
-        window.location = '/frontend/html/playboard.php';
-      }, 3000);
+        window.location = '/playtable.php';
+      }, 2200);
     });
 
     request.fail(function (response, textStatus, jqXHR){
       $("#create_room_window > #result").html("Ошибка!");
     });
-
-    request.always(function(){
-      $inputs.prop("disabled", false);
-      alert(response);
-    });
   })
 
-  $('.room').click(function(){
-    $room = $(this);
-    var $id = $room.attr('id').split('-')[1];
-    
-    request = $.ajax({
-      url:'/backend/join_room.php',
-      type:'post',
-      data: {id:$id}
-    })
+  setInterval(function(){
+    if (room_state_var == 0){
+      var request = $.ajax({
+        url:'/backend/rooms_draw.php'
+      })
 
-    request.done(function(response, textStatus, jqXHR){
-      if (response == 1){
-        window.location = '/frontend/html/playboard.php';
-      }
-      else {
-        alert("Комната уже занята!");
-      }
-    })
-  })
+      request.done(function(response, textStatus, jqXHR){
+        $('.main_main').html(response);
+        $('html').find('script').filter(function(){
+          return $(this).attr('src') == '/frontend/js/refresh_rooms.js'
+      }).remove();
+        $.getScript("/frontend/js/refresh_rooms.js");
+      })
+    }
+  }, 2000)
 });

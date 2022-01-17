@@ -18,7 +18,7 @@ if ($user_id == $row['creator_id']){
     echo('1');
 }
 else if ($user_id == $row['player_id']){
-    $sql = "UPDATE `rooms` SET player_id = NULL WHERE room_id = :room_id";
+    $sql = "UPDATE `rooms` SET player_id = NULL, player_wins = 0 WHERE room_id = :room_id";
     $result = $conn->prepare($sql);
     $result->execute(array(':room_id' => $room_id));
     echo('2');

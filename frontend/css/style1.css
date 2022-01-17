@@ -1,0 +1,437 @@
+/*#background {
+width: 100%;
+height: 100%;
+background: FloralWhite;
+}*/
+
+#login_window {
+display: flex;
+flex-direction: column;
+width: 298px; 
+height: 248px;
+padding: 18px 9px;
+border-radius: 4px;
+background: #fafafa;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+margin: auto;
+display: none;
+opacity: 0;
+z-index: 38;
+text-align: center;
+}
+
+#create_room_window {
+    display: flex;
+    flex-direction: column;
+    width: 298px; 
+    height: 198px;
+    padding: 18px 9px;
+    border-radius: 4px;
+    background: #fafafa;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    margin: auto;
+    display: none;
+    opacity: 0;
+    z-index: 38;
+    text-align: center;
+}
+
+#newacc_window {
+width: 298px; 
+height: 240px;
+padding: 18px 9px;
+border-radius: 4px;
+background: #fafafa;
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+margin: auto;
+display: none;
+opacity: 0;
+z-index: 38;
+text-align: center;
+}
+
+#login_close, #newacc_close, #create_room_window_close {
+width: 21px; height: 21px;
+position: absolute;
+font-size: 39px;
+top: 1px; right: 11px;
+cursor: pointer;
+display: block;
+color: black;
+}
+
+.overlay {
+z-index: 37;
+position: fixed;
+background: rgba(0,0,0,.7);
+width: 100%; height: 100%;
+top: 0; left: 0;
+cursor: pointer;
+display: none;
+}
+
+.log_fields {
+display: flex;
+flex-direction: row;
+
+}
+
+.login_field {
+display: flex;
+flex-direction: column;
+}
+
+.newacc_field {
+display: flex;
+flex-direction: column;
+}
+
+.input_fields {
+width: 230px;
+height: 30px;
+align-self: center;
+margin-top: 20px;
+}
+
+.vhod {
+color: black;
+font-size: 30px;
+}
+
+#new_acc_text {
+font-size: 16px;
+}
+
+#login_button {
+width: 80px;
+height: 30px;
+align-self: center;
+margin-top: 20px;
+background: DodgerBlue;
+font-size: 16px;
+font-weight: bold;
+color: white;
+transition: background 0.05s linear;
+transition: all .05s linear;
+box-shadow: 3px 3px 3px #999;
+}
+
+#login_button:active {
+background: blue;
+box-shadow: 1px 1px 1px #777;
+transform: translateY(2px);
+}
+
+#newacc_button {
+width: 190px;
+height: 35px;
+align-self: center;
+margin-top: 20px;
+background: DodgerBlue;
+font-size: 16px;
+font-weight: bold;
+color: white;
+transition: background 0.05s linear;
+transition: all .05s linear;
+box-shadow: 3px 3px 3px #999;
+}
+
+#newacc_button:active {
+background: blue;
+box-shadow: 1px 1px 1px #777;
+transform: translateY(2px);
+}
+
+#create_room_button {
+    width: 110px;
+    height: 30px;
+    align-self: center;
+    margin-top: 20px;
+    background: DodgerBlue;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    transition: background 0.05s linear;
+    transition: all .05s linear;
+    box-shadow: 3px 3px 3px #999;
+    }
+    
+    #create_room_button:active {
+    background: blue;
+    box-shadow: 1px 1px 1px #777;
+    transform: translateY(2px);
+    }
+
+.add_window {
+    display: flex;
+    flex-direction: column;
+    width: 398px; 
+    height: 480px;
+    padding: 18px 9px;
+    border-radius: 10px;
+    background: #fafafa;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    margin: auto;
+    display: block;
+    opacity: 0;
+    z-index: 38;
+    text-align: center;
+    font-size: 18px;
+}
+
+.add_form {
+    font-size: 18px;
+    width: 100%;
+    height: auto;
+}
+
+.checkboxes_field {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-left: 20px;
+}
+
+.checkboxes {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.checkboxes input {
+    left: 0;
+}
+
+.add_window_line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 360px;
+    padding-bottom: 20px;
+    margin-left: 20px;
+}
+
+.add_window_lineX {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 10px;
+    margin-left: 20px;
+}
+
+.line {
+    width: 90%;
+    height: 2px;
+    background: orange;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+
+#add_button {
+    width: 150px;
+    height: 45px;
+    font-size: 22px;
+    border-radius: 8px;
+}
+
+#add_window_close {
+    width: 21px; height: 21px;
+    position: absolute;
+    font-size: 39px;
+    top: -7px; right: 11px;
+    cursor: pointer;
+    display: block;
+    color: black;
+}
+
+.event_box {
+    display: block;
+    position: absolute;
+    width: 200px;
+    height: 110px;
+    background: rgb(70, 86, 228);
+    border-radius: 4px;
+    border: solid 2px black;
+    overflow: hidden;
+    color: white;
+    transition: all 0.25s;
+}
+
+.event_box:hover {
+    height: 300px;
+}
+
+.event_box b {
+    font-size: 14px;
+}
+
+.title {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.place {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.time {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.description {
+    position: absolute;
+    top: 130px;
+    left: 10px;
+    padding-right: 10px;
+    transition: all 0.1s;
+}
+
+.event_box:hover .description {
+    top: 45px;
+}
+
+.event_box_window {
+    display: flex;
+    flex-direction: column;
+    width: 398px; 
+    height: 358px;
+    padding: 18px 9px;
+    border-radius: 4px;
+    background: #fafafa;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    margin: auto;
+    display: none;
+    opacity: 0;
+    z-index: 38;
+    text-align: center;
+}
+
+.event_box_window_close {
+    width: 21px; height: 21px;
+    position: absolute;
+    font-size: 39px;
+    top: 1px; right: 11px;
+    cursor: pointer;
+    display: block;
+    color: black;
+}
+
+.playboard {
+    height: 600px;
+    width: 600px;
+    margin: 0 auto;
+    background: rgb(255, 255, 255);
+    position: relative;
+}
+
+.cells_line {
+    display: flex;
+    flex-direction: row;
+}
+
+.cell {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 100px;
+    height: 192px;
+    width: 192px;
+    background: white;
+    border: solid 4px black;
+}
+
+.cell:hover {
+    background: rgb(175, 175, 175);
+}
+
+.cell_front {
+    display: inline;
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    background: rgb(212, 212, 212);
+    opacity: 0.3;
+}
+
+.rooms_display {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 500px;
+    height: 500px;
+    border: solid 4px black;
+}
+
+.rooms_display .columns{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border-bottom: solid 2px black;
+}
+
+.rooms_display .columns b{
+    font-size: 20px;
+}
+
+.room a {
+    font-size: 20px;
+}
+
+.room_field {
+    width: 35%;
+    margin-left: 10%;
+    text-align: center;
+}
+
+.playboard .cells_front {
+    display: block;
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: rgb(212, 212, 212);
+    top: 0;
+    left: 0;
+    opacity: 0.3;
+}
+
+.button_restart {
+    display: none;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 70px;
+    font-size: 36px;
+    margin: 0 auto;
+    background: grey;
+    border: solid 3px black;
+    border-radius: 10px;
+}
+
+.room_pass_window {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 198px; 
+    height: 118px;
+    padding: 18px 9px;
+    border-radius: 4px;
+    background: #fafafa;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    margin: auto;
+    opacity: 0;
+    z-index: 38;
+    text-align: center;
+}

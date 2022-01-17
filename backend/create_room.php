@@ -7,7 +7,7 @@ $room = $_POST['room_name'];
 $pass = $_POST['room_password'];
 $creator_id = $_SESSION['user_id'];
 
-$starter_id = rand(0, 1);
+$starter_id = 1;
 
 $sql = "INSERT INTO `rooms` (creator_id, name, password, starter_id, starter_sign, user_turn, previous_sign) VALUES (:creator_id, :name, :password, :starter_id, 'x', :user_turn, 'o')";
 $result = $conn->prepare($sql);

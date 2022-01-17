@@ -1,6 +1,6 @@
 <?php
 session_start();
-include "backend/dbconnect.php";
+include 'backend/dbconnect.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,9 +26,6 @@ include "backend/dbconnect.php";
 			<div class="top">
 				<div class="top_wrapper">
 					<h1><a href="index.php"><span>Main page</span></a></h1>
-					<?php if ($_SESSION['user_id']) { echo("<h1><a href='#' class='create_room'>Create room</a></h1>");
-					 	include 'frontend/html/create_room.html';
-					 	echo("<div class='overlay'></div>");} ?>
 				</div>
 			</div>
 
@@ -37,12 +34,23 @@ include "backend/dbconnect.php";
 					<div class="main_body_left">
 						<div class="main_body_left_wrapper">
 							
-							<div class="top_main">All rooms</div>
-							
-							<div class="main_main">
-
-							</div>
-
+							<div class='playboard'>
+						        <div class='cells_front'></div>
+						        
+						        <?php $j = 1;
+						        for ($i = 1; $i <= 3; $i++) {
+						            echo("<div class='cells_line'>");
+						                echo("<div class='cell' id='cell_$j'></div>
+						                    <div class='cell_front', id='cell_front-$j' style='top: ".(($i - 1) * 200)."px; left: 0px'></div>");
+						                echo("<div class='cell' id='cell_".($j+1)."'></div>
+						                    <div class='cell_front', id='cell_front-".($j+1)."' style='top: ".(($i - 1) * 200)."px; left: 200px'></div>");
+						                echo("<div class='cell' id='cell_".($j+2)."'></div>
+						                    <div class='cell_front', id='cell_front-".($j+2)."' style='top: ".(($i - 1) * 200)."px; left: 400px'></div>");
+						            echo("</div>");
+						            $j = $j + 3;
+						        } ?>
+						    </div>
+						    <div class='button_restart'>Restart!</div>
 						</div>
 					</div>
 
@@ -52,29 +60,11 @@ include "backend/dbconnect.php";
 							<div class="user_data">
 								<div class="user_data_wrapper">
 									<div class="text_data">
-										<?php 
-										    
-										    
-
-
-											if ($_SESSION['user_id']){
-    											
-    											$x = 100;
-    										    $sql = "SELECT * FROM `users` WHERE user_id = :user_id";
-                                                $result = $conn->prepare($sql);
-                                                $result->execute(array(':user_id' => $_SESSION['user_id']));
-                                                $row = $result->fetch();
-    											echo("<div>Login:</div></br><div style='color: limegreen;'>".$row['login']."</div></br>");
-											
-											}else{
-												
-												echo("<p><a href='#' class='create_acc'>Create acc</a></p>");
-												include 'frontend/html/newacc_window.html';
-												echo("<p><a href='#' class='login'>Login</a></p>");
-												include 'frontend/html/login_window.html';
-												echo("<div class='overlay'></div>");
-											}
-										?>
+										<b id='player_turn'></b>
+										<a id='enemy_info' style='margin-top: 30px;'>Ваш оппонент: ---</a>
+										<a id='creator_wins' style='margin-top: 30px;'></a>
+										<a id='player_wins' style='margin-top: 30px;'></a>
+										<b id='enemy_wait' style='margin-top: 30px; font-size: 36px'></b>
 									</div>
 								</div>
 							</div>
@@ -84,7 +74,7 @@ include "backend/dbconnect.php";
 			</div>
 		</div>
 	</div>
-	
+	<script src="frontend/js/playboard_script.js"></script>
 	<script src="frontend/js/javascript.js"></script>
 </body>
 </html>
